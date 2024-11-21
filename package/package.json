@@ -1,0 +1,14 @@
+{
+  "name": "tz-demo-202411",
+  "version": "0.0.1",
+  "description": "tz组件库测试版",
+  "author": {
+    "name": "destinyMjr"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {}
+}
