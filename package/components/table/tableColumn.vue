@@ -29,6 +29,32 @@
     :filter-method="filterMethod"
     :filtered-value="filteredValue"
   >
+    <template #header="{ column, $index }" v-if="headerRender">
+      <component :is="headerRender(column, $index)"></component>
+    </template>
+    <template #filter-icon v-if="filterIcon">
+      <component :is="filterIcon()"></component>
+    </template>
+    <template #default="{ row, column, $index }">
+      <el-form-item
+        :prop="'list.' + $index + '.' + column.property"
+        :key="$index"
+        :rules="rules"
+      >
+        {{ 'list.' + $index + '.' + column.property }}
+        <!-- render -->
+        <template v-if="render">
+          <component :is="render(row, column, $index)"></component>
+        </template>
+        <!-- 外部插槽 -->
+        <template v-else-if="slot">
+          <slot :name="slot" :column="column" :row="row" :index="$index"></slot>
+        </template>
+        <!-- 默认输入框编辑 -->
+        <el-input v-else-if="edit" v-model="row[column.property]"></el-input>
+        <span v-else>{{ row[column.property] }}</span>
+      </el-form-item>
+    </template>
   </el-table-column>
 </template>
 <script lang="ts" setup>

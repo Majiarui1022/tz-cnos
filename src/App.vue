@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import TzButton from '../package/components/button/index.vue'
 import TzTable from '../package/components/table/table.vue'
-import { ref } from 'vue'
-
+import { TzTableColumnsProps } from '../package/components/table/tableType'
+import { ref, h } from 'vue'
+import Demo from './components/demo.vue'
 const value1 = ref(true)
 
 const tableData = [
@@ -27,18 +28,27 @@ const tableData = [
     address: 'No. 189, Grove St, Los Angeles',
   },
 ]
-const column = ref([
-  // {
-  //   type: 'selection',
-  //   // selectable: (row: any) => {
-  //   //   console.log(row)
-  //   // },
-  //   width: '55',
-  // },
+const column = ref<TzTableColumnsProps[]>([
+  {
+    type: 'selection',
+    // selectable: (row: any) => {
+    //   console.log(row)
+    // },
+    width: '55',
+  },
   {
     label: 'Date',
     prop: 'date',
     width: '180',
+    headerRender: (column, index) => {
+      console.log(column)
+      return h('span', index)
+    },
+    edit: true,
+    rules: { required: true, message: '请输入姓名', trigger: 'blur' },
+    // render: (row) => {
+    //   return h('span', '2321321')
+    // },
   },
   {
     label: 'Name',
@@ -51,13 +61,27 @@ const column = ref([
     width: '180',
   },
 ])
+function select<T = any>(selection: T[], row: T) {
+  console.log(selection, row)
+}
+function selectAll(selection: any[]) {
+  console.log(selection)
+}
 </script>
 
 <template>
   <TzButton type="primary" size="large">按钮1</TzButton>
   <TzButton type="warring" size="middle">按钮2</TzButton>
   <el-switch v-model="value1" />
-  <TzTable highlight-current-row :data="tableData" :column="column" />
+  <TzTable
+    highlight-current-row
+    :data="tableData"
+    :column="column"
+    @select="select"
+    @select-all="selectAll"
+  >
+  </TzTable>
+  <Demo />
 </template>
 
 <style scoped>

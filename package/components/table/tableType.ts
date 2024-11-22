@@ -1,5 +1,4 @@
-import { VNode } from 'vue'
-import { ElTooltipProps } from 'element-plus'
+import { VNode, render } from 'vue'
 export interface TreeNode {
   expanded?: boolean
   loading?: boolean
@@ -8,6 +7,7 @@ export interface TreeNode {
   level?: number
   display?: boolean
 }
+
 export interface Sort {
   prop: string
   order: 'ascending' | 'descending'
@@ -180,4 +180,12 @@ export interface TzTableColumnsProps {
   filterMethod?: (value: any, row: any, column: any) => void
   // 选中的数据过滤项，如果需要自定义表头过滤的渲染方式，可能会需要此属性。
   filteredValue?: string[]
+
+  // 头部自定义
+  headerRender?: (column: TzTableColumnsProps, index: number) => VNode
+  filterIcon?: () => VNode
+  render?: (row: any, column: TzTableColumnsProps, index: number) => VNode
+  slot?: string
+  edit?: boolean
+  rules?: any
 }

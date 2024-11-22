@@ -15,7 +15,6 @@ const props = defineProps({
     default: 'normal',
   },
 })
-console.log(props.size)
 </script>
 <style lang="scss" scoped>
 .tz-button {
