@@ -1,13 +1,14 @@
 <template>
+  {{ showName }}
   <el-form :model="form" ref="formRef">
     <el-table
       ref="tzTableModelRef"
-      :data="data"
+      :data="tableData"
       :height="height"
       :maxHeight="maxHeight"
       :stripe="stripe"
       :border="border"
-      :size="size"
+      :size="tableSize"
       :fit="fit"
       :showHeader="showHeader"
       :highlightCurrentRow="highlightCurrentRow"
@@ -58,8 +59,22 @@
       @header-dragend="headerDragend"
       @expand-change="expandChange"
     >
+      <!-- <el-table-column prop="date" label="Date" width="180">
+        <template #default="{ row, column, $index }">
+          <el-form-item
+            :prop="'list.' + $index + '.' + column.property"
+            :rules="{
+              required: true,
+              message: '不能为空',
+              trigger: 'blur',
+            }"
+          >
+            <el-input v-model="form.list[$index][column.property]"></el-input>
+          </el-form-item>
+        </template>
+      </el-table-column> -->
       <template v-for="(item, index) in column">
-        <tableColumn v-bind="item" :index="index">
+        <tableColumn v-bind="item" :index="index" :form="form">
           <template #[val]="scope" v-for="val in getTableColumnSlots">
             <slot
               :name="val"
@@ -79,13 +94,44 @@
       </template>
     </el-table>
   </el-form>
-  <el-button @click="validateForm">测试</el-button>
+  <Pagination
+    v-if="showPage"
+    :size="size"
+    :background="background"
+    :pageSize="pageSize"
+    :defaultPageSize="defaultPageSize"
+    :total="pageTotal"
+    :currentPage="pageCurrentPage"
+    :pageCount="pageCount"
+    :pagerCount="pagerCount"
+    :defaultCurrentPage="defaultCurrentPage"
+    :layout="layout"
+    :pageSizes="pageSizes"
+    :appendSizeTo="appendSizeTo"
+    :popperClass="popperClass"
+    :prevText="prevText"
+    :prevIcon="prevIcon"
+    :nextText="nextText"
+    :nextIcon="nextIcon"
+    :disabled="disabled"
+    :teleported="teleported"
+    :hideOnSinglePage="hideOnSinglePage"
+    :small="small"
+    @size-change="sizeChange"
+    @currentPageChange="currentPageChange"
+    @change="change"
+    @prev-click="prevClick"
+    @next-click="nextClick"
+  />
+  <!-- <el-button @click="validateForm">测试</el-button> -->
 </template>
 
 <script lang="ts" setup>
 import { TzTableProps } from './tableType'
 import tableColumn from './tableColumn.vue'
-import { ref, computed, getCurrentInstance, reactive } from 'vue'
+import { ref, computed, getCurrentInstance, reactive, onMounted } from 'vue'
+import Pagination from '../pagination/index.vue'
+import { initializeData } from './table.fun'
 // defineProps<TzTableProps<any>>()
 const tzTableModelRef = ref()
 const props = withDefaults(defineProps<TzTableProps<any>>(), {
@@ -119,13 +165,19 @@ const props = withDefaults(defineProps<TzTableProps<any>>(), {
   tableLayout: 'fixed',
   scrollbarAlwaysOn: true,
   flexible: false,
+  showPage: true,
 
   // 表格column
   column: () => [],
+  total: 0,
+  // 默认第一页
+  currentPage: 1,
 })
-
+const pageTotal = ref(props.total)
+const pageCurrentPage = ref(props.currentPage)
+const tableData = ref<any[]>(props.data)
 const form = reactive({
-  list: JSON.parse(JSON.stringify(props.data)),
+  list: tableData.value,
 })
 
 // 表格列中的插槽
@@ -137,50 +189,28 @@ const getTableColumnSlots = computed(() => {
   })
   return [
     ...props.column.filter((item) => item.slot).map((item) => item.slot),
-    'expandSlot', // 兼容列 type 为 'expand' 的列
+    // 'expand', // 兼容列 type 为 'expand' 的列
     ...slotsList,
   ]
 })
-
+const showName = ref('')
 const formRef = ref()
-function validateForm() {
-  formRef.value.validate((valid) => {
+function validateTable() {
+  return formRef.value.validate((valid) => {
     console.log(form)
-    if (valid) {
-      console.log('表单验证成功')
-    } else {
-      console.log('表单验证失败')
-      return false
-    }
+    return valid
+    // if (valid) {
+    //   showName.value = '表单验证成功'
+    // } else {
+    //   showName.value = '表单验证失败'
+    //   return false
+    // }
   })
-
-  // let result = true
-  // for (let item of formRef.value.fields) {
-  //   formRef.value.validateField('date', (err) => {
-  //     if (err) {
-  //       result = false
-  //     }
-  //   })
-  //   if (!result) break
-  // }
-  // if (!result) {
-  // } else {
-  // }
-  // let valid = true
-  // props.data.forEach((item, index) => {
-  //   formRef.value.validate('date', (error) => {
-  //     if (error) {
-  //       valid = false
-  //     }
-  //   })
-  // })
-  // if (!valid) {
-  //   console.log('表单验证失败')
-  // } else {
-  //   console.log('表单验证成功')
-  // }
 }
-
+onMounted(() =>
+  // 初始化数据
+  initializeData(props, tableData, form, pageTotal, pageCurrentPage)
+)
 const emits = defineEmits([
   'select',
   'selectAll',
@@ -197,6 +227,12 @@ const emits = defineEmits([
   'currentChange',
   'headerDragend',
   'expandChange',
+
+  'sizeChange',
+  'currentPageChange',
+  'change',
+  'prevClick',
+  'nextClick',
 ])
 // 当用户手动勾选数据行的 Checkbox 时触发的事件
 function select<T = any>(selection: T[], row: T): void {
@@ -355,6 +391,32 @@ function columns() {
 function updateKeyChildren<T>(key: string, data: T[]) {
   tzTableModelRef.value.updateKeyChildren(key, data)
 }
+
+function sizeChange(value: number) {
+  initializeData(props, tableData, form, pageTotal, pageCurrentPage)
+  console.log(value, 'sizeChange')
+  emits('sizeChange', value)
+}
+function currentPageChange(value: number) {
+  pageCurrentPage.value = value
+  initializeData(props, tableData, form, pageTotal, pageCurrentPage)
+  emits('currentPageChange', value)
+}
+function change(currentPage: number, pageSize: number) {
+  initializeData(props, tableData, form, pageTotal, pageCurrentPage)
+  console.log(currentPage, pageSize, 'change')
+  emits('change', currentPage, pageSize)
+}
+function prevClick(value: number) {
+  initializeData(props, tableData, form, pageTotal, pageCurrentPage)
+  console.log(value, 'prevClick')
+  emits('prevClick', value)
+}
+function nextClick(value: number) {
+  initializeData(props, tableData, form, pageTotal, pageCurrentPage)
+  console.log(value, 'nextClick')
+  emits('nextClick', value)
+}
 defineExpose({
   clearSelection,
   getSelectionRows,
@@ -371,5 +433,6 @@ defineExpose({
   setScrollLeft,
   columns,
   updateKeyChildren,
+  validateTable
 })
 </script>

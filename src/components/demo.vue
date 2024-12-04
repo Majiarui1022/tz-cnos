@@ -7,24 +7,6 @@
     class="demo-dynamic"
   >
     <el-form-item
-      prop="email"
-      label="Email"
-      :rules="[
-        {
-          required: true,
-          message: 'Please input email address',
-          trigger: 'blur',
-        },
-        {
-          type: 'email',
-          message: 'Please input correct email address',
-          trigger: ['blur', 'change'],
-        },
-      ]"
-    >
-      <el-input v-model="dynamicValidateForm.email" />
-    </el-form-item>
-    <el-form-item
       v-for="(domain, index) in dynamicValidateForm.domains"
       :key="domain.key"
       :label="'domains.' + index + '.name'"
@@ -55,7 +37,6 @@ import type { FormInstance } from 'element-plus'
 const formRef = ref<FormInstance>()
 const dynamicValidateForm = reactive<{
   domains: DomainItem[]
-  email: string
 }>({
   domains: [
     {
@@ -63,7 +44,6 @@ const dynamicValidateForm = reactive<{
       name: '',
     },
   ],
-  email: '',
 })
 
 interface DomainItem {

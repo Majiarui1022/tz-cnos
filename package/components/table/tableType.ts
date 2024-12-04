@@ -1,4 +1,5 @@
 import { VNode, render } from 'vue'
+import { PaginationType } from '../pagination/pagination.type'
 export interface TreeNode {
   expanded?: boolean
   loading?: boolean
@@ -14,7 +15,7 @@ export interface Sort {
   init?: any
   silent?: any
 }
-export interface TzTableProps<T> {
+export interface TzTableProps<T> extends PaginationType {
   // 表格数据
   data: T[]
   // 表格高度
@@ -26,7 +27,7 @@ export interface TzTableProps<T> {
   // 是否带有纵向边框
   border?: boolean
   // Table 的尺寸
-  size?: '' | 'large' | 'default' | 'small'
+  tableSize?: '' | 'large' | 'default' | 'small'
   // 列的宽度是否自撑开
   fit?: boolean
   // 是否显示表头
@@ -105,6 +106,15 @@ export interface TzTableProps<T> {
   style?: object
 
   column: TzTableColumnsProps[]
+  // 展示分页
+  showPage?: boolean
+  // 查询方法
+  api?: (params: any) => Promise<any>
+
+  /**  方法回调 */
+
+  // 查询之前参数处理
+  beforeQuery?: (params: any) => any
 }
 export interface TzTableColumnsProps {
   // 对应列的类型。 如果设置了selection则显示多选框； 如果设置了 index 则显示该行的索引（从 1 开始计算）； 如果设置了 expand 则显示为一个可展开的按钮
@@ -188,4 +198,5 @@ export interface TzTableColumnsProps {
   slot?: string
   edit?: boolean
   rules?: any
+  form?: any
 }

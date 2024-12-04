@@ -35,25 +35,37 @@
     <template #filter-icon v-if="filterIcon">
       <component :is="filterIcon()"></component>
     </template>
-    <template #default="{ row, column, $index }">
+    <template #default="{ row, column, $index }" v-if="type == 'default'">
       <el-form-item
         :prop="'list.' + $index + '.' + column.property"
         :key="$index"
         :rules="rules"
       >
-        {{ 'list.' + $index + '.' + column.property }}
         <!-- render -->
         <template v-if="render">
-          <component :is="render(row, column, $index)"></component>
+          <component
+            :is="render(form.list[$index], column, $index)"
+          ></component>
         </template>
         <!-- 外部插槽 -->
         <template v-else-if="slot">
-          <slot :name="slot" :column="column" :row="row" :index="$index"></slot>
+          <slot
+            :name="slot"
+            :column="column"
+            :row="form.list[$index]"
+            :index="$index"
+          ></slot>
         </template>
         <!-- 默认输入框编辑 -->
-        <el-input v-else-if="edit" v-model="row[column.property]"></el-input>
-        <span v-else>{{ row[column.property] }}</span>
+        <el-input
+          v-else-if="edit"
+          v-model="form.list[$index][column.property]"
+        ></el-input>
+        <span v-else>{{ form.list[$index][column.property] }}</span>
       </el-form-item>
+    </template>
+    <template v-if="type == 'expand'" #default="{ row, column, $index }">
+      <slot :name="slot" :column="column" :row="row" :index="$index"></slot>
     </template>
   </el-table-column>
 </template>
