@@ -23,16 +23,58 @@
     <formItem v-for="val in formOtions" v-bind="val" :model="model"></formItem>
   </el-form>
 </template>
-
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import formItem from './formItem.vue'
-import type { FormType } from './form.type'
-const props = withDefaults(defineProps<FormType>(), {})
+import type { FormType, Arrayable } from './type'
+import type {
+  FormItemProps,
+  FormValidateCallback,
+  FormItemContext,
+} from './interface'
+
+withDefaults(defineProps<FormType>(), {
+  inline: false,
+  labelPosition: 'right',
+  labelWidth: '',
+  labelSuffix: '',
+  hideRequiredAsterisk: false,
+  showMessage: true,
+  inlineMessage: false,
+  statusIcon: false,
+  validateOnRuleChange: true,
+  disabled: false,
+  scrollToError: false,
+})
 
 const ruleFormRef = ref<FormInstance>()
-setTimeout(() => {
-  console.log(props.formOtions)
-}, 1000)
+defineExpose({
+  validate(callback: FormValidateCallback) {
+    unref(ruleFormRef)?.validate(callback)
+  },
+  validateField(
+    props?: Arrayable<FormItemProps> | undefined,
+    callback?: FormValidateCallback | undefined
+  ) {
+    unref(ruleFormRef)?.validateField(props, callback)
+  },
+  resetFields() {
+    unref(ruleFormRef)?.resetFields()
+  },
+  scrollToField(prop: any) {
+    unref(ruleFormRef)?.scrollToField(prop)
+  },
+  clearValidate(prop: any) {
+    unref(ruleFormRef)?.clearValidate(prop)
+  },
+  fields() {
+    return unref(ruleFormRef)?.fields as FormItemContext[]
+  },
+})
+</script>
+<script lang="ts">
+export default {
+  name: 'TzForm',
+}
 </script>

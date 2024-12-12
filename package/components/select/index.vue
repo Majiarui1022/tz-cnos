@@ -3,7 +3,7 @@
     ref="selectComp"
     v-bind="props"
     style="width: 240px"
-    v-model="selectValue"
+    v-model="resultValue"
     @change="change"
     @visibleChange="visibleChange"
     @removeTag="removeTag"
@@ -26,28 +26,41 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, computed, getCurrentInstance } from 'vue'
-import { SelectType } from './select.type'
+import { SelectType } from './type'
 const props = withDefaults(defineProps<SelectType>(), {
-  value: '',
   queryData: 'data',
   filedLabel: 'label',
   filedValue: 'value',
   filedKey: 'value',
 })
 const optionsArray = ref(props.options)
-onMounted(() => {
-  if (props.api) {
-    let queryParams = null
-    queryParams = props.beforeQuery
-      ? props.beforeQuery(props.params)
-      : props.params
-    props.api(props.params).then((res) => {
-      optionsArray.value = props.affterData
-        ? props.affterData(res[props.queryData])
-        : res[props.queryData]
-    })
-  }
+
+let inputValue = ref<any>(props.modelValue)
+let resultValue = computed({
+  get() {
+    if (props.modelValue != inputValue.value) {
+      inputValue.value = props.modelValue
+    }
+    return inputValue.value
+  },
+  set(val) {
+    inputValue.value = val
+    let result: any
+    if (props.multiple || props.allowCreate) {
+      result = val
+    } else {
+      let selectList = optionsArray.value?.filter((item) => val === item.code)
+      console.log(selectList, '選擇之')
+      result =
+        selectList && selectList.length > 0
+          ? selectList[0][props.filedLabel]
+          : ''
+    }
+    console.log(result, '選擇之2')
+    emits('update:modelValue', result)
+  },
 })
+
 const getSlots = computed(() => {
   const that = getCurrentInstance()
   const slotsList: string[] = []
@@ -56,22 +69,23 @@ const getSlots = computed(() => {
   })
   return slotsList
 })
-const selectValue = ref(props.value)
 // 选中值发生变化时触发
 function change(val: any) {
   let getLabel = ''
   try {
-    const selectItem = optionsArray.value?.filter(
-      (item) => item[props.filedValue] == val
-    )
-    getLabel =
-      selectItem && selectItem?.length > 0
-        ? selectItem[0][props.filedLabel]
-        : ''
+    if (!props.multiple && !props.allowCreate) {
+      const selectItem = optionsArray.value?.filter(
+        (item) => item[props.filedValue] == val
+      )
+      getLabel =
+        selectItem && selectItem?.length > 0
+          ? selectItem[0][props.filedLabel]
+          : ''
+    }
   } catch (e) {
     getLabel = ''
   }
-  emits('update:value', val)
+  emits('update:modelValue', val)
   emits('change', val, getLabel)
 }
 // 下拉框出现/隐藏时触发
@@ -95,7 +109,7 @@ function focusCall(event) {
   emits('focus', event)
 }
 const emits = defineEmits([
-  'update:value',
+  'update:modelValue',
   'change',
   'visibleChange',
   'removeTag',
@@ -113,5 +127,25 @@ function blur() {
 function selectedLabel() {
   return selectComp.value.selectedLabel
 }
+onMounted(() => {
+  if (props.api) {
+    let queryParams = null
+    queryParams = props.beforeQuery
+      ? props.beforeQuery(props.params)
+      : props.params
+    props.api(props.params).then((res) => {
+      optionsArray.value = props.affterData
+        ? props.affterData(res[props.queryData])
+        : res[props.queryData]
+    })
+  }
+})
+
 defineExpose({ focus, blur, selectedLabel })
+</script>
+
+<script lang="ts">
+export default {
+  name: 'TzSelect',
+}
 </script>

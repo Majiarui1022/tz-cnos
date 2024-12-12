@@ -2,7 +2,7 @@ import { Component } from '@vue/runtime-core'
 type SelectSize = '' | 'large' | 'default' | 'small'
 type SelectEffect = 'dark' | 'light'
 export interface SelectType {
-  value: string | number | boolean | object | any[]
+  modelValue: string | number | boolean | object | any[]
   multiple?: boolean
   disabled?: boolean
   valueKey?: string

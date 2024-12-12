@@ -10,27 +10,25 @@
     :formOtions="formOtions"
     status-icon
   />
+  <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+  <el-button @click="submitForm(ruleFormRef)">确定</el-button>
 </template>
-
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, h } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import TzForm from '../../package/components/form/index'
-import type { FormItemType } from '../../package/components/form/form.type'
+// import TzAutocomplete from '../../package/index'
+import TestAutoComplete from './testAutoComplete.vue'
+import type { FormItemType } from '../../package/index'
 interface RuleForm {
   name: string
   region: string
-  // count: string
-  // date1: string
-  // date2: string
-  // delivery: boolean
-  // location: string
+  learn: string
   ses: string[]
-  // resource: string
-  // desc: string
 }
-const locationOptions = ['Home', 'Company', 'School']
+const ruleFormRef = ref()
 const formSize = ref<ComponentSize>('default')
+let id = 0
 const formOtions = ref<FormItemType[]>([
   {
     label: '名称',
@@ -40,6 +38,7 @@ const formOtions = ref<FormItemType[]>([
   {
     label: '年龄',
     prop: 'region',
+    required: true,
   },
   {
     label: '选泽',
@@ -68,11 +67,46 @@ const formOtions = ref<FormItemType[]>([
       // },
     },
   },
+  {
+    label: '学习',
+    prop: 'learn',
+    required: true,
+    defaultRender: (model, prop) => {
+      return h(TestAutoComplete, {
+        model,
+        prop,
+      })
+    },
+  },
+  {
+    label: '选择',
+    prop: 'selpro',
+    tag: 'cascader',
+    attrs: {
+      props: {
+        lazy: true,
+        lazyLoad(node, resolve) {
+          const { level } = node
+          setTimeout(() => {
+            const nodes = Array.from({ length: level + 1 }).map((item) => ({
+              value: ++id,
+              label: `Option - ${id}`,
+              leaf: level >= 2,
+            }))
+            // Invoke `resolve` callback to return the child nodes data and indicate the loading is finished.
+            console.log(nodes)
+            resolve(nodes)
+          }, 1000)
+        },
+      },
+    },
+  },
 ])
 const ruleForm = reactive<RuleForm>({
   name: 'Hello',
   region: '',
   ses: [],
+  learn: '',
   // count: '',
   // date1: '',
   // date2: '',
@@ -91,57 +125,17 @@ const rules = reactive<FormRules<RuleForm>>({
     {
       required: true,
       message: 'Please select Activity zone',
-      trigger: 'change',
+      trigger: 'blur',
     },
-  ],
-  date1: [
-    {
-      type: 'date',
-      required: true,
-      message: 'Please pick a date',
-      trigger: 'change',
-    },
-  ],
-  date2: [
-    {
-      type: 'date',
-      required: true,
-      message: 'Please pick a time',
-      trigger: 'change',
-    },
-  ],
-  location: [
-    {
-      required: true,
-      message: 'Please select a location',
-      trigger: 'change',
-    },
-  ],
-  type: [
-    {
-      type: 'array',
-      required: true,
-      message: 'Please select at least one activity type',
-      trigger: 'change',
-    },
-  ],
-  resource: [
-    {
-      required: true,
-      message: 'Please select activity resource',
-      trigger: 'change',
-    },
-  ],
-  desc: [
-    { required: true, message: 'Please input activity form', trigger: 'blur' },
   ],
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
+  console.log(ruleForm, 'form表单')
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      console.log('submit!', ruleForm)
     } else {
       console.log('error submit!', fields)
     }
@@ -153,10 +147,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 
-const options = Array.from({ length: 10000 }).map((_, idx) => ({
-  value: `${idx + 1}`,
-  label: `${idx + 1}`,
-}))
+// const options = Array.from({ length: 10000 }).map((_, idx) => ({
+//   value: `${idx + 1}`,
+//   label: `${idx + 1}`,
+// }))
 </script>
 
 <style scoped>

@@ -1,7 +1,8 @@
 {
   "name": "tz-demo-202411",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "tz组件库测试版",
+  "updates": "修改form組建名稱",
   "author": {
     "name": "destinyMjr"
   },
@@ -10,5 +11,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "dependencies": {}
+  "dependencies": {
+    "element-plus": "^2.8.8"
+  }
 }

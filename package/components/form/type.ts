@@ -4,12 +4,11 @@ import { VNode, render } from 'vue'
 // import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 type labelPositionType = 'left' | 'right' | 'top'
 type requireAsteriskPositionType = 'left' | 'right'
-type Arrayable<T> = T | T[]
+export type Arrayable<T> = T | T[]
 
 interface FormItemRule extends RuleItem {
   trigger?: Arrayable<string>
 }
-
 export interface FormType {
   model?: Record<string, any>
   rules?: FormRules
@@ -35,7 +34,7 @@ export interface FormType {
 export interface FormItemType {
   prop: string
   label?: string
-  labelPosition?: labelPositionType
+  labelPosition?: labelPositionType | ''
   labelWidth?: string | number
   required?: boolean
   rules?: Arrayable<FormItemRule>
@@ -50,7 +49,9 @@ export interface FormItemType {
   // form对象
   model?: any
   // 组件名称
-  tag?: 'input' | 'select'
+  tag?: 'input' | 'select' | 'autocomplete' | 'cascader'
   // 组件其他参数
   attrs?: any
+  // 内容
+  defaultRender?: (model: any, prop: string) => VNode
 }

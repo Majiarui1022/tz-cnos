@@ -1,5 +1,5 @@
 import { VNode, render } from 'vue'
-import { PaginationType } from '../pagination/pagination.type'
+import { PaginationType } from '../pagination/type'
 export interface TreeNode {
   expanded?: boolean
   loading?: boolean

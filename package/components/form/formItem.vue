@@ -5,7 +5,6 @@
     :label-position="labelPosition"
     :label-width="labelWidth"
     :required="required"
-    :rules="rules"
     :error="error"
     :show-message="showMessage"
     :inline-message="inlineMessage"
@@ -13,20 +12,32 @@
     :for="fors"
     :validate-status="validateStatus"
   >
-    <template v-if="!tag">
+    <template v-if="defaultRender">
+      <component v-if="model && prop" :is="defaultRender(model, prop)" />
+    </template>
+    <template v-if="!tag && !defaultRender">
       <el-input v-model="model[prop]"></el-input>
     </template>
     <template v-if="tag === 'select'">
-      <TzSelect v-bind="attrs" :value="model[prop]" />
+      <TzSelect v-bind="attrs" v-model="model[prop]" />
+    </template>
+    <template v-if="tag === 'autocomplete'">
+      <TzAutocomplete v-bind="attrs" v-model="model[prop]" />
+    </template>
+    <template v-if="tag === 'cascader'">
+      <TzCascader v-bind="attrs" v-model="model[prop]" />
     </template>
   </el-form-item>
 </template>
 <script lang="ts" setup>
-import type { FormItemType } from './form.type'
+import type { FormItemType } from './type'
 import TzSelect from '../select'
-const props = withDefaults(defineProps<FormItemType>(), {})
-
-setTimeout(() => {
-  console.log(props)
-}, 1000)
+import TzAutocomplete from '../autocomplete'
+import TzCascader from '../cascader'
+const props = withDefaults(defineProps<FormItemType>(), {
+  labelPosition: '',
+  labelWidth: '',
+  showMessage: true,
+  inlineMessage: '',
+})
 </script>

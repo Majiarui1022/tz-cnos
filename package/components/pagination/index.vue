@@ -28,8 +28,8 @@
     @next-click="nextClick"
   />
 </template>
-<script lang="ts" setup>
-import { PaginationType } from './pagination.type'
+<script lang="ts" setup name="tz-pagination">
+import { PaginationType } from './type'
 const props = withDefaults(defineProps<PaginationType>(), {
   // size: 'default',
   // background: false,
@@ -57,5 +57,11 @@ function prevClick(value: number) {
 }
 function nextClick(value: number) {
   emits('nextClick', value)
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'TzPagination',
 }
 </script>

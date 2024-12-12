@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import TzTable from '../package/components/table/table.vue'
-import { TzTableColumnsProps } from '../package/components/table/tableType'
+import { TzTableColumnsProps } from '../package/components/table/type'
 import TzSelect from '../package/components/select/index.vue'
 import { ElInput } from 'element-plus'
 import { ref, h } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
+import TestAutoComplete from './components/testAutoComplete.vue'
+import CascaderDemo from './components/cascaderDemo.vue'
 const tableData = ref([
   {
     date: '2016-05-03',
@@ -235,6 +237,8 @@ function selectedLabel() {
     </template>
   </TzSelect> -->
   <HelloWorld />
+  <!-- <TestAutoComplete /> -->
+  <CascaderDemo />
 </template>
 
 <style scoped>

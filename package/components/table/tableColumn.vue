@@ -70,7 +70,7 @@
   </el-table-column>
 </template>
 <script lang="ts" setup>
-import { TzTableColumnsProps } from './tableType'
+import { TzTableColumnsProps } from './type'
 const props = withDefaults(defineProps<TzTableColumnsProps>(), {
   type: 'default',
   width: '',

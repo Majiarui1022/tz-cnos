@@ -127,7 +127,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TzTableProps } from './tableType'
+import { TzTableProps } from './type'
 import tableColumn from './tableColumn.vue'
 import { ref, computed, getCurrentInstance, reactive, onMounted } from 'vue'
 import Pagination from '../pagination/index.vue'
@@ -433,6 +433,11 @@ defineExpose({
   setScrollLeft,
   columns,
   updateKeyChildren,
-  validateTable
+  validateTable,
 })
+</script>
+<script lang="ts">
+export default {
+  name: 'TzTable',
+}
 </script>

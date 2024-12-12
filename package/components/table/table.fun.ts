@@ -1,4 +1,4 @@
-import { TzTableProps } from './tableType'
+import { TzTableProps } from './type'
 import { Ref } from 'vue'
 export function initializeData(
   props: TzTableProps<any>,

@@ -1,5 +1,6 @@
 // >>>>> Rule
 // Modified from https://github.com/yiminghe/async-validator/blob/0d51d60086a127b21db76f44dff28ae18c165c47/src/index.d.ts
+import type { ComponentSize, FormRules } from 'element-plus'
 export type RuleType =
   | 'string'
   | 'number'
@@ -203,9 +204,38 @@ export interface RuleValuePackage {
   field: string
 }
 
+// ValidateFieldsError
+export type FormValidateCallback = (
+  isValid: boolean,
+  invalidFields?: any
+) => Promise<void> | void
+
 export interface InternalRuleItem extends Omit<RuleItem, 'validator'> {
   field?: string
   fullField?: string
   fullFields?: string[]
   validator?: RuleItem['validator'] | ExecuteValidator
+}
+
+export type FormItemProps = ExtractPropTypes<typeof formItemProps>
+type FormValidationResult = Promise<boolean>
+type FormItemValidateState = (typeof formItemValidateStates)[number]
+
+export type FormItemContext = FormItemProps & {
+  $el: HTMLDivElement | undefined
+  size: ComponentSize
+  validateState: FormItemValidateState
+  isGroup: boolean
+  labelId: string
+  inputIds: string[]
+  hasLabel: boolean
+  fieldValue: any
+  addInputId: (id: string) => void
+  removeInputId: (id: string) => void
+  validate: (
+    trigger: string,
+    callback?: FormValidateCallback
+  ) => FormValidationResult
+  resetField(): void
+  clearValidate(): void
 }

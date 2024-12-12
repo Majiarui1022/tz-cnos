@@ -1,9 +1,10 @@
 import { App } from 'vue'
-import TzButton from './components/button'
-const components = [TzButton]
+import components from './tz-components/components'
+export * from './tz-components/default'
 const install = (app: App) => {
   for (const item of components) {
-    app.component(item.name as string, item)
+    console.log(item)
+    app.component(item.name as string, item.component)
   }
   return app
 }
