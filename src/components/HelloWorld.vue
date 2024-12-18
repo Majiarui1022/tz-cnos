@@ -14,12 +14,16 @@
   <el-button @click="submitForm(ruleFormRef)">确定</el-button>
 </template>
 <script setup lang="ts">
+// 这里使用了组件 不展示  不知道是不是没注册好
 import { reactive, ref, h } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import TzForm from '../../package/components/form/index'
+// import TzForm from '../../package/components/form/index'
+// import TzForm from 'tz-demo-202411' // 这个吗 这应该是在main.ts中全局注册的组件
+import type { FormItemType } from 'tz-demo-202411'
 // import TzAutocomplete from '../../package/index'
 import TestAutoComplete from './testAutoComplete.vue'
-import type { FormItemType } from '../../package/index'
+
+// import type { FormItemType } from '../../package/index'
 interface RuleForm {
   name: string
   region: string

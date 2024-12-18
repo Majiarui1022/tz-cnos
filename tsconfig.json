@@ -1,11 +1,18 @@
 {
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "declaration": true
+  },
   "files": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
     }
   ],
+  "include": [
+    "package/**/*.ts",
+    "package/**/*.d.ts",
+    "package/**/*.tsx",
+    "package/**/*.vue"
+  ]
 }

@@ -1,25 +1,18 @@
 <template>
   <TzAutocomplete
-    v-model="model[prop!]"
+    v-model="value"
     :fetch-suggestions="querySearchAsync"
     @select="handleSelect"
   />
 </template>
 <script setup lang="ts">
-import { reactive, ref, onMounted, computed } from 'vue'
-// import TzAutocomplete from '../../package/index'
-import TzAutocomplete from '../../package/components/autocomplete'
+import { ref, onMounted } from 'vue'
 const value = ref('')
 const props = defineProps({
   prop: String,
   model: Object,
 })
 console.log(props)
-// computed({
-//   get() {
-
-//   }
-// })
 interface LinkItem {
   value: string
   link: string
