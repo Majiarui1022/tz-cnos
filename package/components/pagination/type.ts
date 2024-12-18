@@ -4,7 +4,7 @@ type PageSize = 'large' | 'default' | 'small'
 export interface PaginationType {
   size?: PageSize
   background?: boolean
-  pageSize?: number
+  pageSize?: number[]
   defaultPageSize?: number
   total?: number
   pageCount?: number

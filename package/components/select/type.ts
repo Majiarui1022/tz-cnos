@@ -1,6 +1,16 @@
 import { Component } from '@vue/runtime-core'
 type SelectSize = '' | 'large' | 'default' | 'small'
 type SelectEffect = 'dark' | 'light'
+export const defaultKeys = [
+  'api',
+  'params',
+  'beforeQuery',
+  'affterData',
+  'queryData',
+  'filedLabel',
+  'filedValue',
+  'filedKey',
+]
 export interface SelectType {
   modelValue: string | number | boolean | object | any[]
   multiple?: boolean
@@ -70,7 +80,7 @@ export interface SelectType {
   // 查询之后处理返回值
   affterData?: (data: any) => any
   // 查询取集合值
-  queryData?: string
+  queryData?: string | string[]
   // label实际值
   filedLabel?: string
   // value实际值

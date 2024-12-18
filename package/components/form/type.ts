@@ -44,7 +44,7 @@ export interface FormItemType {
   size?: ComponentSize
   fors?: string
   validateStatus?: '' | 'error' | 'validating' | 'success'
-  render?: (form: any, props: FormItemType) => VNode
+  // render?: (form: any, props: FormItemType) => VNode
 
   // form对象
   model?: any

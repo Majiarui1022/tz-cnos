@@ -18,7 +18,7 @@
     :disabled="disabled"
     :scrollToError="scrollToError"
     :scrollIntoViewOptions="scrollIntoViewOptions"
-    :class="calss"
+    :class="['tz-form', calss]"
   >
     <formItem v-for="val in formOtions" v-bind="val" :model="model"></formItem>
   </el-form>
@@ -78,3 +78,13 @@ export default {
   name: 'TzForm',
 }
 </script>
+<style lang="css">
+.tz-form {
+  :deep(.el-select) {
+    width: 100% !important;
+  }
+  :deep(.el-cascader) {
+    width: 100% !important;
+  }
+}
+</style>

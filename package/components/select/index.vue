@@ -1,7 +1,7 @@
 <template>
   <el-select
     ref="selectComp"
-    v-bind="props"
+    v-bind="reject(props, defaultKeys)"
     style="width: 240px"
     v-model="resultValue"
     @change="change"
@@ -26,7 +26,8 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, computed, getCurrentInstance } from 'vue'
-import { SelectType } from './type'
+import { SelectType, defaultKeys } from './type'
+import { reject } from '../../hooks/tz'
 const props = withDefaults(defineProps<SelectType>(), {
   queryData: 'data',
   filedLabel: 'label',

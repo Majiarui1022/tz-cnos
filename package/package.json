@@ -1,8 +1,15 @@
 {
   "name": "tz-demo-202411",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "tz组件库测试版",
-  "updates": "修改form組建名稱",
+  "updates": "完善form,添加级联，自动补全组件",
+  "main": "dist/my-lib.umd.js",
+  "module": "dist/my-lib.es.js",
+  "types": "dist/my-lib.d.js",
+  "files": [
+    "dist/*",
+    "my-lib.d.ts"
+  ],
   "author": {
     "name": "destinyMjr"
   },

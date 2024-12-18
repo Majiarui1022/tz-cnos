@@ -29,8 +29,13 @@
     :filter-method="filterMethod"
     :filtered-value="filteredValue"
   >
-    <template #header="{ column, $index }" v-if="headerRender">
-      <component :is="headerRender(column, $index)"></component>
+    <template #header="{ column, $index }">
+      <i style="color: red" v-if="rules && rules.required">*</i>
+      <span v-if="!headerRender"> {{ column.label }}</span>
+      <component
+        :is="headerRender(column, $index)"
+        v-if="headerRender"
+      ></component>
     </template>
     <template #filter-icon v-if="filterIcon">
       <component :is="filterIcon()"></component>
@@ -56,7 +61,7 @@
             :index="$index"
           ></slot>
         </template>
-        <!-- 默认输入框编辑 -->
+        <!-- 默认输入框编辑 (其他输入 tag属性 与form使用一致) -->
         <el-input
           v-else-if="edit"
           v-model="form.list[$index][column.property]"

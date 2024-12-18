@@ -31,10 +31,16 @@
 <script lang="ts" setup name="tz-pagination">
 import { PaginationType } from './type'
 const props = withDefaults(defineProps<PaginationType>(), {
-  // size: 'default',
-  // background: false,
-  // pagerCount: 7,
-  // layout: 'prev, pager, next, jumper, ->, total'
+  size: 'default',
+  background: false,
+  pagerCount: 7,
+  layout: 'prev, pager, next, jumper, ->, total',
+  pageSizes: () => [10, 20, 30, 40, 50, 100],
+  prevIcon: 'ArrowLeft',
+  disabled: false,
+  teleported: true,
+  hideOnSinglePage: false,
+  small: false,
 })
 const emits = defineEmits([
   'sizeChange',

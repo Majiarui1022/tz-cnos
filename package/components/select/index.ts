@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import TzSelect from './index.vue'
-export * from './type'
 TzSelect.install = (app: App) => {
-  app.component('TzSelect', TzSelect)
+  app.component(TzSelect.name as string, TzSelect)
   return app
 }
+export * from './type'
 export default TzSelect
