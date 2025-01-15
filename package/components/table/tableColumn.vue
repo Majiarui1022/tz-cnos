@@ -40,7 +40,7 @@
     <template #filter-icon v-if="filterIcon">
       <component :is="filterIcon()"></component>
     </template>
-    <template #default="{ row, column, $index }" v-if="type == 'default'">
+    <template #default="{ column, $index }" v-if="type == 'default'">
       <el-form-item
         :prop="'list.' + $index + '.' + column.property"
         :key="$index"
@@ -76,7 +76,7 @@
 </template>
 <script lang="ts" setup>
 import { TzTableColumnsProps } from './type'
-const props = withDefaults(defineProps<TzTableColumnsProps>(), {
+withDefaults(defineProps<TzTableColumnsProps>(), {
   type: 'default',
   width: '',
   minWidth: '',

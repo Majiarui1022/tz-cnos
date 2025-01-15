@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import Table from './components/table/index.vue'
+import Upload from './components/upload/index.vue'
+import Page from './page/index.vue'
 </script>
 
 <template>
-  <Table />
+  <Upload />
+  <Page />
 </template>
 
 <style scoped>

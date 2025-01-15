@@ -1,4 +1,3 @@
-import { Component } from '@vue/runtime-core'
 type SelectSize = '' | 'large' | 'default' | 'small'
 type SelectEffect = 'dark' | 'light'
 export const defaultKeys = [
@@ -41,9 +40,10 @@ export interface SelectType {
   appendTo?: string
   persistent?: boolean
   automaticDropdown?: boolean
-  clearIcon?: string | Component
+  clearIcon?: string | any
   fitInputWidth?: boolean
-  suffixIcon?: string | Component
+  // suffixIcon?: string | Component
+  suffixIcon?: string | any
   tagType?: '' | 'success' | 'info' | 'warning' | 'danger'
   tagEffect?: '' | 'light' | 'dark' | 'plain'
   validateEvent?: boolean
@@ -80,7 +80,7 @@ export interface SelectType {
   // 查询之后处理返回值
   affterData?: (data: any) => any
   // 查询取集合值
-  queryData?: string | string[]
+  queryData?: string
   // label实际值
   filedLabel?: string
   // value实际值

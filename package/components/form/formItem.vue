@@ -18,7 +18,7 @@
     <template v-if="!tag && !defaultRender">
       <el-input v-model="model[prop]"></el-input>
     </template>
-    <template v-if="tag === 'select'">
+    <!-- <template v-if="tag === 'select'">
       <TzSelect v-bind="attrs" v-model="model[prop]" />
     </template>
     <template v-if="tag === 'autocomplete'">
@@ -26,18 +26,30 @@
     </template>
     <template v-if="tag === 'cascader'">
       <TzCascader v-bind="attrs" v-model="model[prop]" />
+    </template> -->
+    <template v-if="tag">
+      <component :is="renderTz(tag, model[prop], attrs)" />
     </template>
   </el-form-item>
 </template>
 <script lang="ts" setup>
 import type { FormItemType } from './type'
-import TzSelect from '../select'
-import TzAutocomplete from '../autocomplete'
-import TzCascader from '../cascader'
-const props = withDefaults(defineProps<FormItemType>(), {
+import { renderTz } from '../../hooks/renderTz'
+withDefaults(defineProps<FormItemType>(), {
   labelPosition: '',
   labelWidth: '',
   showMessage: true,
   inlineMessage: '',
 })
+// function renderHtml() {
+//   const obj = {
+//     select: 'TzSelect',
+//     autocomplete: 'TzAutocomplete',
+//     cascader: 'TzCascader',
+//   }
+//   return h(resolveComponent(obj[props.tag]), {
+//     modelValue: props.model[props.prop],
+//     ...props.attrs,
+//   })
+// }
 </script>

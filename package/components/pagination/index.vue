@@ -30,7 +30,7 @@
 </template>
 <script lang="ts" setup name="tz-pagination">
 import { PaginationType } from './type'
-const props = withDefaults(defineProps<PaginationType>(), {
+withDefaults(defineProps<PaginationType>(), {
   size: 'default',
   background: false,
   pagerCount: 7,

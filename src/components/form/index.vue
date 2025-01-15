@@ -17,7 +17,7 @@
 // 这里使用了组件 不展示  不知道是不是没注册好
 import { reactive, ref, h } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-// import TzForm from '../../package/components/form/index'
+import TzForm from '../../../package/components/form/index.vue'
 // import TzForm from 'tz-demo-202411' // 这个吗 这应该是在main.ts中全局注册的组件
 import type { FormItemType } from 'tz-demo-202411'
 // import TzAutocomplete from '../../package/index'
@@ -47,7 +47,7 @@ const formOtions = ref<FormItemType[]>([
   {
     label: '选泽',
     prop: 'ses',
-    tag: 'select',
+    tag: 'TzSelect',
     attrs: {
       api: () => {
         return new Promise((res, rej) => {
@@ -85,7 +85,7 @@ const formOtions = ref<FormItemType[]>([
   {
     label: '选择',
     prop: 'selpro',
-    tag: 'cascader',
+    tag: 'TzCascader',
     attrs: {
       props: {
         lazy: true,

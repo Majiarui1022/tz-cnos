@@ -17,3 +17,13 @@ export default [
   TzAutocomplete,
   TzCascader,
 ]
+
+export {
+  TzButton,
+  TzForm,
+  TzPagination,
+  TzSelect,
+  TzTable,
+  TzAutocomplete,
+  TzCascader,
+}

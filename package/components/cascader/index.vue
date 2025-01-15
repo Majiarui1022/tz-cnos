@@ -45,7 +45,7 @@
   </el-cascader>
 </template>
 <script lang="ts" setup>
-import { computed, getCurrentInstance, ref } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 import { defaultSlots } from './default'
 import type { CascaderType } from './type'
 import type { CascaderValue } from 'element-plus'

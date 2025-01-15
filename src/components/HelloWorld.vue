@@ -47,7 +47,7 @@ const formOtions = ref<FormItemType[]>([
   {
     label: '选泽',
     prop: 'ses',
-    tag: 'select',
+    tag: 'TzSelect',
     attrs: {
       api: () => {
         return new Promise((res, rej) => {
@@ -85,7 +85,7 @@ const formOtions = ref<FormItemType[]>([
   {
     label: '选择',
     prop: 'selpro',
-    tag: 'cascader',
+    tag: 'TzCascader',
     attrs: {
       props: {
         lazy: true,

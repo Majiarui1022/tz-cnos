@@ -1,6 +1,6 @@
 import type { ComponentSize, FormRules } from 'element-plus'
 import type { RuleItem } from './interface'
-import { VNode, render } from 'vue'
+import { VNode } from 'vue'
 // import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 type labelPositionType = 'left' | 'right' | 'top'
 type requireAsteriskPositionType = 'left' | 'right'
@@ -49,7 +49,7 @@ export interface FormItemType {
   // form对象
   model?: any
   // 组件名称
-  tag?: 'input' | 'select' | 'autocomplete' | 'cascader'
+  tag?: 'input' | 'TzSelect' | 'TzAutocomplete' | 'TzCascader'
   // 组件其他参数
   attrs?: any
   // 内容

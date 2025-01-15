@@ -25,7 +25,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, unref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import formItem from './formItem.vue'
 import type { FormType, Arrayable } from './type'
 import type {

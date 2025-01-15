@@ -3,6 +3,7 @@ import {
   containerPreview,
   componentPreview,
 } from '@vitepress-demo-preview/plugin'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // import { fileURLToPath, URL } from 'node:url'
 
@@ -36,6 +37,7 @@ export default defineConfig({
           { text: 'Select', link: '/guide/select' },
           { text: 'Form', link: '/guide/form' },
           { text: 'Pagination', link: '/guide/pagination' },
+          { text: 'Checkbox', link: '/guide/checkbox' },
         ],
       },
       {
@@ -74,6 +76,7 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [vueJsx()],
     server: {
       host: '0.0.0.0',
     },

@@ -1,4 +1,4 @@
-import { VNode, render } from 'vue'
+import { VNode } from 'vue'
 import { PaginationType } from '../pagination/type'
 export interface TreeNode {
   expanded?: boolean

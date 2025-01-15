@@ -11,7 +11,7 @@
     @blur="blurCall"
     @focus="focusCall"
   >
-    <template #[val]="scope" v-for="val in getSlots">
+    <template #[val] v-for="val in getSlots">
       <slot :name="val" :options="optionsArray" />
     </template>
     <el-option
@@ -130,11 +130,10 @@ function selectedLabel() {
 }
 onMounted(() => {
   if (props.api) {
-    let queryParams = null
-    queryParams = props.beforeQuery
+    let queryParams = props.beforeQuery
       ? props.beforeQuery(props.params)
       : props.params
-    props.api(props.params).then((res) => {
+    props.api(queryParams).then((res) => {
       optionsArray.value = props.affterData
         ? props.affterData(res[props.queryData])
         : res[props.queryData]

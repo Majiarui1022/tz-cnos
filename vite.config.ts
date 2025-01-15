@@ -2,10 +2,12 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    vueJsx(),
     dts({ include: './package', tsconfigPath: './tsconfig.json' }),
   ],
   server: {
@@ -14,7 +16,8 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'package/index.ts'),
+      // entry: resolve(__dirname, 'package/index.ts'),
+      entry: './package/index.ts',
       name: 'MyLib',
       fileName: 'my-lib',
     },

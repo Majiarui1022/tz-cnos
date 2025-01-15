@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup name="tz-button">
 import { defineProps } from 'vue'
-const props = defineProps({
+defineProps({
   size: {
     type: String,
     default: 'middle',
